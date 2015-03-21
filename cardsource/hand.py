@@ -79,6 +79,19 @@ class Hand(object):
             card = Card(card)
         self._cards.append(card)
 
+    def remove(self, card):
+        """
+        Removes a Card from the hand
+
+        :param card: the card to remove
+        :type card: :class`cardsource.cards.Card`
+        """
+
+        if not isinstance(card, Card):
+            card = Card(card)
+
+        self._cards.remove(card)
+
     def clear(self):
         """
         Removes all cards from the hand
