@@ -32,12 +32,14 @@ class HumanPlayer(SevenOfHeartsPlayer):
             else:
                 if choice.rank == 'X': # submit a joker to skip the turn
                     return choice
-                elif choice in self.hand and self.game.legal(choice):
+                elif choice not in self.hand:
+                    print str(choice) + " not in hand"
+                elif not self.game.legal(choice):
+                    print str(choice) + " not a legal move"
+                else:
                     self.hand.remove(choice)
                     print "Playing " + str(choice)
                     return choice
-                else:
-                    print "Card not in hand or illegal"
 
     def update(self, update_msg):
         print "Player " + self.name + " update: " + str(update_msg)

@@ -3,7 +3,6 @@ from game import *
 from player import *
 from seven_of_hearts_player import *
 
-# TODO subclass Card instead of doing this
 VALUES = {
     'A': 1,
     '2': 2,
@@ -31,7 +30,8 @@ class SevenOfHearts(SheddingGame):
         self.state['c'] = [] # clubs
 
     def setup(self):
-        print "setup! there are " + str(len(self.players)) + " players"
+        print "Dealing cards for " + str(len(self.players)) + " players"
+        self.deal_all_cards()
 
     def update_players(self):
         update = self.state
@@ -62,13 +62,7 @@ class SevenOfHearts(SheddingGame):
         return (len(player.hand) == 0)
 
     def finish(self):
-        print "finish!"
-
-    def run(self):
-        print "run!"
-
-        while self.round():
-            print "playing round"
+        print "finished the game!"
 
 if __name__ == '__main__':
     # run a single game with 2 human players
@@ -76,7 +70,6 @@ if __name__ == '__main__':
     game = SevenOfHearts(Deck())
     game.add_player(HumanPlayer("1",game))
     game.add_player(HumanPlayer("2",game))
-    game.deal_all_cards()
 
     game.setup()
     game.run()

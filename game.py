@@ -37,12 +37,21 @@ class SheddingGame(object):
                 self.update_state(card)
                 self.update_players()
                 if (self.victory(p)):
-                    print "Player " + str(p.name) + " has won!"
-                    return False
+                    return winner
             else:
-                print "Skipping turn"
+                print "Skipping " + player.name + "'s turn"
 
-        return True
+        return None
+
+    def run(self):
+        count = 1
+        while True:
+            print "Playing round " + str(count)
+            count += 1
+            winner = self.round()
+            if winner:
+                print "Player " + str(winner.name) + " has won!"
+                break
 
     def legal(self, card):
         raise NotImplemented("Cannot check legality without a specific game!")
