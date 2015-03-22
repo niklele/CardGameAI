@@ -1,5 +1,5 @@
-from cardsource import *
-from player import *
+# from cardsource import *
+# import cardsource as cs
 from collections import deque
 
 class SheddingGame(object):
@@ -39,7 +39,7 @@ class SheddingGame(object):
                 if (self.victory(p)):
                     return winner
             else:
-                print "Skipping " + player.name + "'s turn"
+                print "Skipping " + p.name + "'s turn"
 
         return None
 

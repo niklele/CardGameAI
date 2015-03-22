@@ -1,7 +1,5 @@
-from cardsource import *
-from game import *
-from player import *
-from seven_of_hearts_player import *
+import cardsource as cs
+from game import SheddingGame
 
 VALUES = {
     'A': 1,
@@ -66,8 +64,9 @@ class SevenOfHearts(SheddingGame):
 
 if __name__ == '__main__':
     # run a single game with 2 human players
+    from seven_of_hearts_player import HumanPlayer
 
-    game = SevenOfHearts(Deck())
+    game = SevenOfHearts(cs.Deck())
     game.add_player(HumanPlayer("1",game))
     game.add_player(HumanPlayer("2",game))
 

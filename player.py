@@ -1,11 +1,11 @@
-from cardsource import *
+import cardsource as cs
 
 class Player(object):
     """ Base class for human and AI players """
     def __init__(self, name, game):
         super(Player, self).__init__()
         self.name = name
-        self.hand = Hand()
+        self.hand = cs.Hand()
         self.game = game
         
     def play(self):

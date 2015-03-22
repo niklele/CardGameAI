@@ -1,5 +1,6 @@
-from cardsource import *
-from player import *
+import sys
+import cardsource as cs
+from player import Player
 from seven_of_hearts import SevenOfHearts
 
 class SevenOfHeartsPlayer(Player):
@@ -25,9 +26,12 @@ class HumanPlayer(SevenOfHeartsPlayer):
             try:
                 choice = raw_input("Choice:")
                 if ('X' in choice):
-                    return Card('X')
-                choice = Card(choice)
-            except CardSourceError as e:
+                    return cs.Card('X')
+                choice = cs.Card(choice)
+            except KeyboardInterrupt:
+                print "\nQuitting the game"
+                sys.exit(1)
+            except cs.CardSourceError as e:
                 print e
             else:
                 if choice.rank == 'X': # submit a joker to skip the turn
