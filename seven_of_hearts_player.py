@@ -42,9 +42,8 @@ class HumanPlayer(SevenOfHeartsPlayer):
                     print str(choice) + " not a legal move"
                 else:
                     self.hand.remove(choice)
-                    print "Playing " + str(choice)
                     return choice
 
     def update(self, update_msg):
-        print "Player " + self.name + " update: " + str(update_msg)
+        # print "Player " + self.name + " update: " + str(update_msg)
         self.game_state = update_msg

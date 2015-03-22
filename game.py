@@ -7,7 +7,7 @@ class SheddingGame(object):
     def __init__(self, deck):
         super(SheddingGame, self).__init__()
         self.players = deque()
-        self.state = {'deck': deck}
+        self.state = {'deck': deck, 'round': 0}
 
     def add_player(self, player):
         self.players.append(player)
@@ -34,20 +34,20 @@ class SheddingGame(object):
         for p in self.players:
             card = p.play()
             if (not 'X' in card.rank): # skip their turn if they play a joker
+                print "Player " + p.name + " chose " + str(card)
                 self.update_state(card)
                 self.update_players()
                 if (self.victory(p)):
-                    return winner
+                    return p
             else:
                 print "Skipping " + p.name + "'s turn"
 
         return None
 
     def run(self):
-        count = 1
         while True:
-            print "Playing round " + str(count)
-            count += 1
+            print "Playing round " + str(self.state['round'])
+            self.state['round'] += 1
             winner = self.round()
             if winner:
                 print "Player " + str(winner.name) + " has won!"
