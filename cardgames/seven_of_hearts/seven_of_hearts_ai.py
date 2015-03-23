@@ -10,7 +10,7 @@ class RandomPlayer(SevenOfHeartsPlayer):
         super(RandomPlayer, self).__init__(name, game)
 
     def play(self):
-        choices = filter(lambda c: self.game.legal(c), self.hand)
+        choices = self.game.legal_moves(self.hand)
         # print "legal moves in hand: " + str(choices)
         try:
             return random.choice(choices)

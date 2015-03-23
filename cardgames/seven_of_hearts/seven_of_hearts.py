@@ -31,12 +31,6 @@ class SevenOfHearts(SheddingGame):
         print "Dealing cards for " + str(len(self.players)) + " players"
         self.deal_all_cards()
 
-    def update_players(self):
-        update = self.state
-        print "Update: " + str(update)
-        for p in self.players:
-            p.update(update)
-
     def legal(self, card):
         pile = self.state[card.suit]
         value = Value(card)
@@ -47,6 +41,15 @@ class SevenOfHearts(SheddingGame):
             return len(filter(lambda c: Value(c) is value+1, pile)) > 0
         else: # always allowed to place a 7
             return True
+
+    def legal_moves(self, cards):
+        return filter(lambda c: self.legal(c), cards)
+
+    def update_players(self):
+        update = self.state
+        print "Update: " + str(update)
+        for p in self.players:
+            p.update(update)
 
     def update_state(self, card):
         pile = self.state[card.suit]
