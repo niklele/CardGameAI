@@ -1,5 +1,3 @@
-# from cardsource import *
-# import cardsource as cs
 from collections import deque
 
 class SheddingGame(object):
