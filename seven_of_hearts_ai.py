@@ -13,9 +13,7 @@ class RandomPlayer(SevenOfHeartsPlayer):
         choices = filter(lambda c: self.game.legal(c), self.hand)
         # print "legal moves in hand: " + str(choices)
         try:
-            choice = random.choice(choices)
-            self.hand.remove(choice)
-            return choice
+            return random.choice(choices)
         except IndexError:
             print "No legal moves! Skipping turn"
             return cs.Card('X')

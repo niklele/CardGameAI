@@ -35,6 +35,11 @@ class SheddingGame(object):
             card = p.play()
             if (not 'X' in card.rank): # skip their turn if they play a joker
                 print "Player " + p.name + " chose " + str(card)
+                try:
+                    p.hand.remove(card)
+                except ValueError:
+                    print "illegal move, card not in hand!"
+                    exit(1)
                 self.update_state(card)
                 self.update_players()
                 if (self.victory(p)):

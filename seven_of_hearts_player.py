@@ -41,7 +41,6 @@ class HumanPlayer(SevenOfHeartsPlayer):
                 elif not self.game.legal(choice):
                     print str(choice) + " not a legal move"
                 else:
-                    self.hand.remove(choice)
                     return choice
 
     def update(self, update_msg):
