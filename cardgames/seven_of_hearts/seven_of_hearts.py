@@ -1,3 +1,4 @@
+import logging as log
 import cardsource as cs
 from game import SheddingGame
 
@@ -28,7 +29,7 @@ class SevenOfHearts(SheddingGame):
         self.state['c'] = [] # clubs
 
     def setup(self):
-        print "Dealing cards for " + str(len(self.players)) + " players"
+        log.debug("Dealing cards for " + str(len(self.players)) + " players")
         self.deal_all_cards()
 
     def legal(self, card):
@@ -47,7 +48,7 @@ class SevenOfHearts(SheddingGame):
 
     def update_players(self):
         update = self.state
-        print "Update: " + str(update)
+        log.debug("Update: " + str(update))
         for p in self.players:
             p.update(update)
 
@@ -63,4 +64,4 @@ class SevenOfHearts(SheddingGame):
         return (len(player.hand) == 0)
 
     def finish(self):
-        print "finished the game in " + str(self.state['round']) + " rounds"
+        log.debug("finished the game in " + str(self.state['round']) + " rounds")

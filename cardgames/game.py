@@ -1,4 +1,5 @@
 from collections import deque
+import logging as log
 
 class SheddingGame(object):
     """ Represents a Shedding-type game https://en.wikipedia.org/wiki/Shedding-type_game """
@@ -32,29 +33,29 @@ class SheddingGame(object):
         for p in self.players:
             card = p.play()
             if (not 'X' in card.rank): # skip their turn if they play a joker
-                print "Player " + p.name + " chose " + str(card)
+                log.info("Player " + p.name + " played " + str(card))
                 try:
                     p.hand.remove(card)
                 except ValueError:
-                    print "illegal move, card not in hand!"
+                    log.critical("illegal move by " + p.name + ": card: " + str(card) + " not in hand!")
                     exit(1)
                 self.update_state(card)
                 self.update_players()
                 if (self.victory(p)):
                     return p
             else:
-                print "Skipping " + p.name + "'s turn"
+                log.info("Player " + p.name + " skipped their turn")
 
         return None
 
     def run(self):
         while True:
-            print "Playing round " + str(self.state['round'])
-            self.state['round'] += 1
+            log.info("Round " + str(self.state['round']))
             winner = self.round()
             if winner:
-                print "Player " + str(winner.name) + " has won!"
+                log.info("Player " + str(winner.name) + " has won!")
                 break
+            self.state['round'] += 1
 
     def legal(self, card):
         raise NotImplemented("Cannot check legality without a specific game!")

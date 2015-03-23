@@ -1,3 +1,4 @@
+import logging as log
 import cardsource as cs
 from player import Player
 from seven_of_hearts import SevenOfHearts, Value
@@ -11,13 +12,13 @@ class RandomPlayer(SevenOfHeartsPlayer):
 
     def play(self):
         choices = self.game.legal_moves(self.hand)
-        # print "legal moves in hand: " + str(choices)
+        log.debug("legal moves in hand: " + str(choices))
         try:
             return random.choice(choices)
         except IndexError:
-            print "No legal moves! Skipping turn"
+            log.debug("No legal moves! Skipping turn")
             return cs.Card('X')
 
     def update(self, update_msg):
-        # print "Player " + self.name + " update: " + str(update_msg)
+        log.debug("Player " + self.name + " update: " + str(update_msg))
         self.game_state = update_msg

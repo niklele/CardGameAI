@@ -1,3 +1,4 @@
+import logging as log
 import cardsource as cs
 
 class Player(object):

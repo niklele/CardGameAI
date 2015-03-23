@@ -1,9 +1,12 @@
+import logging as log
 import cardsource as cs
 from seven_of_hearts.seven_of_hearts import SevenOfHearts
 from seven_of_hearts.seven_of_hearts_player import HumanPlayer
 from seven_of_hearts.seven_of_hearts_ai import RandomPlayer
 
 if __name__ == '__main__':
+	log.basicConfig(format='%(levelname)s: %(message)s', level=log.INFO)
+
 	game = SevenOfHearts(cs.Deck())
 
 	# 2 human players
