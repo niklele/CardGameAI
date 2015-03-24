@@ -89,15 +89,15 @@ class HeuristicPlayer(SevenOfHeartsPlayer):
         legal_moves = self.game.legal_moves(self.hand)
         log.debug("legal moves in hand: " + str(legal_moves))
 
-        try:
-            # return tuple in choices that has the max value
-            choices = map(lambda c: (c, self.distance(c) + self.block_value(c)), legal_moves)
-            log.debug("choices: " + str(choices))
+        # return tuple in choices that has the max value
+        choices = map(lambda c: (c, self.distance(c) + self.block_value(c)), legal_moves)
+        log.debug("choices: " + str(choices))
 
+        try:
             card,value = max(choices, key=lambda x: x[1])
             log.debug("chose " + str(card) + " value: " + str(value))
             return card
-        except IndexError:
+        except ValueError:
             log.debug("No legal moves! Skipping turn")
             return cs.Card('X')
 
