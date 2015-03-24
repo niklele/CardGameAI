@@ -19,10 +19,6 @@ class RandomPlayer(SevenOfHeartsPlayer):
             log.debug("No legal moves! Skipping turn")
             return cs.Card('X')
 
-    def update(self, update_msg):
-        log.debug("Player " + self.name + " update: " + str(update_msg))
-        self.game_state = update_msg
-
 class HeuristicPlayer(SevenOfHeartsPlayer):
     """ 
     An AI player that chooses randomly from legal moves
@@ -33,6 +29,10 @@ class HeuristicPlayer(SevenOfHeartsPlayer):
 
     def __init__(self, name, game):
         super(HeuristicPlayer, self).__init__(name, game)
+        self.reset_blocks()
+        self.victories = 0
+
+    def reset_blocks(self):
         # number of cards in each block
         self.blocks =  {'h': {'above': 0, 'below': 0},
                         'd': {'above': 0, 'below': 0},
@@ -83,6 +83,7 @@ class HeuristicPlayer(SevenOfHeartsPlayer):
             return above + below
 
     def play(self):
+        self.reset_blocks()
         self.count_blocks()
 
         # choose card with highest sum of block val and distance
@@ -101,7 +102,6 @@ class HeuristicPlayer(SevenOfHeartsPlayer):
             log.debug("No legal moves! Skipping turn")
             return cs.Card('X')
 
-    def update(self, update_msg):
-        log.debug("Player " + self.name + " update: " + str(update_msg))
-        self.game_state = update_msg
-
+    def notify_victory(self):
+        self.victories += 1
+        log.debug("Player " + self.name + " was won " + str(self.victories) + " times")

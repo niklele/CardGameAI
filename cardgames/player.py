@@ -15,3 +15,6 @@ class Player(object):
     def update(self, update_message):
         raise NotImplemented("Cannot update without a specific kind of player")
 
+    def notify_victory(self):
+        raise NotImplemented("Cannot be notified of victory without a specific kind of player")
+

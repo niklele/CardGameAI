@@ -1,12 +1,13 @@
 from collections import deque
 import logging as log
+import cardsource as cs
 
 class SheddingGame(object):
     """ Represents a Shedding-type game https://en.wikipedia.org/wiki/Shedding-type_game """
-    def __init__(self, deck):
+    def __init__(self):
         super(SheddingGame, self).__init__()
         self.players = deque()
-        self.state = {'deck': deck, 'round': 0}
+        self.state = {'deck': cs.Deck(), 'round': 0}
 
     def add_player(self, player):
         self.players.append(player)
@@ -14,6 +15,9 @@ class SheddingGame(object):
     def next_player(self):
         self.players.rotate(1)
         return self.players[0]
+
+    def print_players(self):
+        log.critical("Players: " + str(map(lambda p: p.name, self.players)).strip('[]'))
 
     def deal_all_cards(self):
         ''' Deal all cards to all players '''
@@ -23,6 +27,12 @@ class SheddingGame(object):
             card = self.state['deck'].pop()
             player = self.next_player()
             player.hand.append(card)
+
+    def take_all_cards(self):
+        ''' Take all cards from all players and recreate the deck '''
+        for p in self.players:
+            p.hand = cs.Hand()
+        self.state['deck'] = cs.Deck()
 
     def setup(self):
         ''' Deal cards and setup board '''
@@ -42,6 +52,7 @@ class SheddingGame(object):
                 self.update_state(card)
                 self.update_players()
                 if (self.victory(p)):
+                    p.notify_victory()
                     return p
             else:
                 log.info("Player " + p.name + " skipped their turn")
@@ -53,7 +64,7 @@ class SheddingGame(object):
             log.info("Round " + str(self.state['round']))
             winner = self.round()
             if winner:
-                log.info("Player " + str(winner.name) + " has won!")
+                log.warning("Player " + str(winner.name) + " has won!")
                 break
             self.state['round'] += 1
 
@@ -72,6 +83,3 @@ class SheddingGame(object):
 
     def victory(self, player):
         raise NotImplemented("Cannot declare victory without a specific game!")
-
-    def print_state(self):
-        print self.state

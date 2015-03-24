@@ -21,14 +21,15 @@ def Value(card):
     return VALUES[card.rank]
 
 class SevenOfHearts(SheddingGame):
-    def __init__(self, deck):
-        super(SevenOfHearts, self).__init__(deck)
+    def __init__(self):
+        super(SevenOfHearts, self).__init__()
         self.state['h'] = [] # hearts
         self.state['d'] = [] # diamonds
         self.state['s'] = [] # spades
         self.state['c'] = [] # clubs
 
     def setup(self):
+        self.state['round'] = 0
         log.debug("Dealing cards for " + str(len(self.players)) + " players")
         self.deal_all_cards()
 
@@ -65,3 +66,4 @@ class SevenOfHearts(SheddingGame):
 
     def finish(self):
         log.debug("finished the game in " + str(self.state['round']) + " rounds")
+        self.take_all_cards()

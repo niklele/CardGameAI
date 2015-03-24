@@ -14,6 +14,10 @@ class SevenOfHeartsPlayer(Player):
 
     def update(self, update_msg):
         log.debug("Player " + self.name + " update: " + str(update_msg))
+        self.game_state = update_msg
+
+    def notify_victory(self):
+        log.debug("Player " + self.name + " was won!")
 
 class HumanPlayer(SevenOfHeartsPlayer):
     """ A human player """
@@ -43,7 +47,3 @@ class HumanPlayer(SevenOfHeartsPlayer):
                     log.warning(str(choice) + " not a legal move")
                 else:
                     return choice
-
-    def update(self, update_msg):
-        log.info("Player " + self.name + " update: " + str(update_msg))
-        self.game_state = update_msg
