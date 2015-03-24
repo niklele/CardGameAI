@@ -5,6 +5,7 @@ from seven_of_hearts.seven_of_hearts_player import HumanPlayer
 from seven_of_hearts.seven_of_hearts_ai import RandomPlayer, HeuristicPlayer
 
 if __name__ == '__main__':
+    # setup logging library to avoid console spam
     log.basicConfig(format='%(levelname)s: %(message)s', level=log.WARNING)
 
     game = SevenOfHearts()
@@ -41,4 +42,4 @@ if __name__ == '__main__':
     expected = float(len(h_players))/len(game.players)
     ratio = (float(h_victories)/ROUNDS - expected) / expected
     log.critical("Heuristic improvement percentage: " + str(ratio) + " after " + str(ROUNDS) + " rounds")
-    # -0.05 after 200 rounds
+    # -0.05 after 200 rounds with 2 random, 2 heuristic

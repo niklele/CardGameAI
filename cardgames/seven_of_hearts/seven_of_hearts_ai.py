@@ -11,6 +11,7 @@ class RandomPlayer(SevenOfHeartsPlayer):
         super(RandomPlayer, self).__init__(name, game)
 
     def play(self):
+    """ Chooses randomly from legal moves """
         choices = self.game.legal_moves(self.hand)
         log.debug("legal moves in hand: " + str(choices))
         try:
@@ -33,22 +34,20 @@ class HeuristicPlayer(SevenOfHeartsPlayer):
         self.victories = 0
 
     def reset_blocks(self):
-        # number of cards in each block
+    """ Reset block counters to 0.
+    Values are percentages of held cards in position relative to the 7 in each suit array
+    """
         self.blocks =  {'h': {'above': 0, 'below': 0},
                         'd': {'above': 0, 'below': 0},
                         's': {'above': 0, 'below': 0},
                         'c': {'above': 0, 'below': 0} }
 
-    # def block_generator(self):
-    #     for suit in "hdsc":
-    #         for block in ['above', 'below']:
-    #             yield self.blocks[suit][block]
-
     def distance(self, card):
-        # linear from 1/6 for 6,8 to 1 for A/K
+        """ linear from (1/6) for 6 and 8 to (1) for Ace and King """
         return float(abs(Value(card) - 7)) / 6.0
 
     def count_blocks(self):
+        """ Record the percentage of cards in hand in each block """
         # number of cards in each block
         dividend = 0.0
         for c in self.hand:
@@ -62,8 +61,6 @@ class HeuristicPlayer(SevenOfHeartsPlayer):
                 self.blocks[c.suit]['below'] += 1
                 dividend += 1
 
-        # self.blocks = map(lambda b: b / dividend, self.block_generator())
-
         # divide all by dividend
         for suit in "hdsc":
             for block in ['above', 'below']:
@@ -72,6 +69,7 @@ class HeuristicPlayer(SevenOfHeartsPlayer):
         log.debug("blocks: " + str(self.blocks))
 
     def block_value(self, card):
+        """ get the block value for a given card """
         v = Value(card)
         above = self.blocks[card.suit]['above']
         below = self.blocks[card.suit]['below']
@@ -83,18 +81,21 @@ class HeuristicPlayer(SevenOfHeartsPlayer):
             return above + below
 
     def play(self):
+        """ Reconunt cards in hand, then choose the card to play based on the heuristic
+        Chosen card is argmax(block value + distance value)
+        """
         self.reset_blocks()
         self.count_blocks()
 
-        # choose card with highest sum of block val and distance
         legal_moves = self.game.legal_moves(self.hand)
         log.debug("legal moves in hand: " + str(legal_moves))
 
-        # return tuple in choices that has the max value
+        # create list of tuples with (card, heuristic)
         choices = map(lambda c: (c, self.distance(c) + self.block_value(c)), legal_moves)
         log.debug("choices: " + str(choices))
 
         try:
+            # return tuple in choices that has the max heuristic value
             card,value = max(choices, key=lambda x: x[1])
             log.debug("chose " + str(card) + " value: " + str(value))
             return card
@@ -102,6 +103,7 @@ class HeuristicPlayer(SevenOfHeartsPlayer):
             log.debug("No legal moves! Skipping turn")
             return cs.Card('X')
 
-    def notify_victory(self):
+    def victory_proc(self):
+        """ count vicotries to look at performace later """
         self.victories += 1
         log.debug("Player " + self.name + " was won " + str(self.victories) + " times")
